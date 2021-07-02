@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    stdin_open: true
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - api
+  api:
+    container_name: api
+    build:
+      context: api
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8000:8000
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
